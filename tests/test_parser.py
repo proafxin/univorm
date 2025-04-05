@@ -32,7 +32,16 @@ async def test_serialize_pandas_table() -> None:
 @pytest.mark.asyncio
 async def test_serialize_polars_table() -> None:
     now = datetime.now()
-    data1 = {"n": "xin", "id": 200, "f": ["a", "b", "c"], "c": now, "b": 20.0, "d": {"a": 1}, "e": [1], "d2": [now]}
+    data1 = {
+        "n": "xin",
+        "id": 200,
+        "f": ["a", "b", "c"],
+        "c": now,
+        "b": 20.0,
+        "d": {"a": 1},
+        "e": [1],
+        "d2": [now],
+    }
     data2 = {"n": "xin", "id": 200, "f": ["d", "e", "f"], "c": now, "b": None, "d": {"a": 1}, "g": [2.0]}
 
     df = pl.DataFrame([data1, data2])
