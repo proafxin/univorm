@@ -9,21 +9,21 @@ xin.writer.nosql module
 
 .. automodule:: xin.writer.nosql
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 xin.writer.sql module
 ---------------------
 
 .. automodule:: xin.writer.sql
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: xin.writer
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

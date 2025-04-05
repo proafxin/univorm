@@ -16,7 +16,7 @@ dependencies = [
     "cryptography>=43.0.1",
     "pandas-stubs>=2.2.2.240909",
     "pyarrow>=17.0.0",
-    "pymongo>=4.10.0",
+    "pymongo[encryption,ocsp,snappy]>=4.11.3",
 ]
 license = { file = "LICENSE" }
 authors = [{name="Masum Billal", email="billalmasum93@gmail.com"}]
@@ -41,18 +41,26 @@ dev = [
 skips = ['*_test.py', '*/test_*.py']
 
 [tool.ruff]
-line-length = 120
+line-length = 110
 
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "session"
 
-# [[tool.mypy.overrides]]
-# module = "pymongo.*"
-# ignore_errors = true
-# disable_error_code = ["type-arg"]
+[[tool.mypy.overrides]]
+module = "pytest-asyncio"
+ignore_errors = true
+disable_error_code = ["type-arg"]
 
 [tool.uv]
 cache-keys = [{ file = "uv.lock" }]
 package = true
+
+[dependency-groups]
+dev = [
+    "coverage>=7.8.0",
+    "pytest-asyncio>=0.26.0",
+    "pytest-mypy>=1.0.1",
+    "tox-uv>=1.25.0",
+]

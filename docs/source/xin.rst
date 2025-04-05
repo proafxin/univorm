@@ -18,21 +18,21 @@ xin.db module
 
 .. automodule:: xin.db
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 xin.parser module
 -----------------
 
 .. automodule:: xin.parser
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: xin
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

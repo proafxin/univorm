@@ -2,6 +2,8 @@
 
 A pydantic powered universal ORM wrapper for databases.
 
+This is a python package I created to reuse some functionalities I have had to implement in multiple jobs. For some reason, there aren't any ORM wrappers we can just plug and play. This should help in that area to some extent. I am trying to make it as generalized as possible but data storage services that require paid access may never be part of this package.
+
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/proafxin/xin/develop.svg)](https://results.pre-commit.ci/latest/github/proafxin/xin/develop)
 [![Build, Test and Publish](https://github.com/proafxin/xin/actions/workflows/cicd.yaml/badge.svg)](https://github.com/proafxin/xin/actions/workflows/cicd.yaml)
 [![codecov](https://codecov.io/gh/proafxin/xin/graph/badge.svg?token=p2cOg8tQMb)](https://codecov.io/gh/proafxin/xin)
@@ -37,5 +39,18 @@ The backend  for interacting with SQL databases is [sqlalchemy](https://www.sqla
 
 ## Plan for Future Database Support
 
+* [Couchbase Capella](https://www.couchbase.com/products/capella/)
 * [Scylladb](https://www.scylladb.com/)
 * [Apache Cassandra](https://cassandra.apache.org/_/index.html)
+
+## Test Locally
+
+Have `docker compose`, [tox](https://tox.wiki/en/4.25.0/) and [uv](https://docs.astral.sh/uv/getting-started/installation/) installed. Then run `docker compose up -d`. Create the environment
+
+```bash
+uv venv
+uv sync --dev --extra formatting --extra docs
+uv lock
+```
+
+Then run `tox -p`

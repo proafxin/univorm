@@ -8,7 +8,13 @@ from pymongo import AsyncMongoClient
 from sqlalchemy.engine import Engine
 from sqlalchemy.ext.asyncio import AsyncEngine
 
-from xin.db import NoSQLDatabaseDialect, SQLDatabaseDialect, async_nosql_client, async_sql_engine, sync_sql_engine
+from xin.db import (
+    NoSQLDatabaseDialect,
+    SQLDatabaseDialect,
+    async_nosql_client,
+    async_sql_engine,
+    sync_sql_engine,
+)
 
 
 @pytest_asyncio.fixture(scope="session")
@@ -16,9 +22,8 @@ async def mongo_client() -> AsyncGenerator[AsyncMongoClient, None]:
     client = await async_nosql_client(
         user=os.environ["MONGO_USER"],
         password=os.environ["MONGO_PASSWORD"],
-        host="localhost",
+        host=os.environ["MONGO_HOST"],
         dialect=NoSQLDatabaseDialect.MONGODB,
-        port=int(os.environ["MONGO_PORT"]),
     )
     yield client
     await client.close()
