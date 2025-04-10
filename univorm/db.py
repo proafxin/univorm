@@ -2,7 +2,7 @@
 
 from enum import Enum
 
-from pymongo import AsyncMongoClient
+from pymongo import AsyncMongoClient, MongoClient
 from sqlalchemy.engine import Engine, create_engine
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
@@ -96,14 +96,23 @@ def sync_sql_engine(
     return create_engine(url=url)
 
 
+def nosql_client(user: str, password: str, dialect: NoSQLDatabaseDialect, host: str) -> MongoClient:
+    driver = "mongodb"
+    # if host != "localhost" and host != "127.0.0.1":
+    driver += "+srv"
+    connection_string = f"{driver}://{user}:{password}@{host}/retryWrites=true&w=majority"
+    client: MongoClient = MongoClient(connection_string)
+
+    return client
+
+
 async def async_nosql_client(
     user: str, password: str, dialect: NoSQLDatabaseDialect, host: str
 ) -> AsyncMongoClient:
-    # connection_string = f"mongodb://{user}:{password}@{host}:{port}/"
     driver = "mongodb"
-    if host != "localhost" and host != "127.0.0.1":
-        driver += "+srv"
-    connection_string = f"{driver}://{user}:{password}@{host}/"
+    # if host != "localhost" and host != "127.0.0.1":
+    driver += "+srv"
+    connection_string = f"{driver}://{user}:{password}@{host}/retryWrites=true&w=majority"
     client: AsyncMongoClient = AsyncMongoClient(connection_string)
 
     return client

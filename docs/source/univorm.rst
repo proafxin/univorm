@@ -1,5 +1,5 @@
-xin package
-===========
+univorm package
+===============
 
 Subpackages
 -----------
@@ -7,24 +7,24 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   xin.reader
-   xin.writer
+   univorm.reader
+   univorm.writer
 
 Submodules
 ----------
 
-xin.db module
--------------
+univorm.db module
+-----------------
 
-.. automodule:: xin.db
+.. automodule:: univorm.db
    :members:
    :show-inheritance:
    :undoc-members:
 
-xin.parser module
------------------
+univorm.parser module
+---------------------
 
-.. automodule:: xin.parser
+.. automodule:: univorm.parser
    :members:
    :show-inheritance:
    :undoc-members:
@@ -32,7 +32,7 @@ xin.parser module
 Module contents
 ---------------
 
-.. automodule:: xin
+.. automodule:: univorm
    :members:
    :show-inheritance:
    :undoc-members:

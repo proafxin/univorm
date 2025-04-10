@@ -5,7 +5,12 @@ import polars as pl
 import pytest
 from pydantic import BaseModel
 
-from xin.parser import camel_case, deserialize_pydantic_objects, flatten, serialize_table
+from univorm.parser import (
+    camel_case,
+    deserialize_pydantic_objects,
+    flatten,
+    serialize_table,
+)
 
 
 @pytest.mark.asyncio
@@ -17,8 +22,24 @@ async def test_camel_case() -> None:
 @pytest.mark.asyncio
 async def test_serialize_pandas_table() -> None:
     now = datetime.now()
-    data1 = {"n": "xin", "id": 200, "f": ["a", "b", "c"], "c": now, "b": 20.0, "d": {"a": 1}, "e": [[1]]}
-    data2 = {"n": "xin", "id": 200, "f": ["d", "e", "f"], "c": now, "b": None, "d": {"a": 1}, "e": [[2]]}
+    data1 = {
+        "n": "xin",
+        "id": 200,
+        "f": ["a", "b", "c"],
+        "c": now,
+        "b": 20.0,
+        "d": {"a": 1},
+        "e": [[1]],
+    }
+    data2 = {
+        "n": "xin",
+        "id": 200,
+        "f": ["d", "e", "f"],
+        "c": now,
+        "b": None,
+        "d": {"a": 1},
+        "e": [[2]],
+    }
 
     pydantic_objects = await serialize_table(table_name="some_table", data=pd.DataFrame(data=[data1, data2]))
 
@@ -26,7 +47,7 @@ async def test_serialize_pandas_table() -> None:
     for entry in pydantic_objects:
         assert entry.__class__.__name__ == "SomeTable"
         assert isinstance(entry, BaseModel)
-        assert len(entry.model_fields.keys()) >= 5
+        assert len(entry.model_dump().keys()) >= 5
 
 
 @pytest.mark.asyncio
@@ -42,7 +63,15 @@ async def test_serialize_polars_table() -> None:
         "e": [1],
         "d2": [now],
     }
-    data2 = {"n": "xin", "id": 200, "f": ["d", "e", "f"], "c": now, "b": None, "d": {"a": 1}, "g": [2.0]}
+    data2 = {
+        "n": "xin",
+        "id": 200,
+        "f": ["d", "e", "f"],
+        "c": now,
+        "b": None,
+        "d": {"a": 1},
+        "g": [2.0],
+    }
 
     df = pl.DataFrame([data1, data2])
 
@@ -52,7 +81,7 @@ async def test_serialize_polars_table() -> None:
     for entry in pydantic_objects:
         assert entry.__class__.__name__ == "PolarsTable"
         assert isinstance(entry, BaseModel)
-        assert len(entry.model_fields.keys()) >= 5
+        assert len(entry.model_dump().keys()) >= 5
 
 
 @pytest.mark.asyncio

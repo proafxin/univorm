@@ -1,6 +1,6 @@
 import pytest
 
-from xin.db import (
+from univorm.db import (
     NOSQL_DRIVERS,
     SQL_DRIVERS,
     NoSQLDatabaseDialect,

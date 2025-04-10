@@ -1,32 +1,33 @@
 # mypy: disable_error_code="type-arg"
 
 import os
-from typing import AsyncGenerator
+from typing import AsyncGenerator, Generator
 
+import pytest
 import pytest_asyncio
-from pymongo import AsyncMongoClient
+from pymongo import MongoClient
 from sqlalchemy.engine import Engine
 from sqlalchemy.ext.asyncio import AsyncEngine
 
-from xin.db import (
+from univorm.db import (
     NoSQLDatabaseDialect,
     SQLDatabaseDialect,
-    async_nosql_client,
     async_sql_engine,
+    nosql_client,
     sync_sql_engine,
 )
 
 
-@pytest_asyncio.fixture(scope="session")
-async def mongo_client() -> AsyncGenerator[AsyncMongoClient, None]:
-    client = await async_nosql_client(
+@pytest.fixture(scope="session")
+def mongo_client() -> Generator[MongoClient, None, None]:
+    client = nosql_client(
         user=os.environ["MONGO_USER"],
         password=os.environ["MONGO_PASSWORD"],
         host=os.environ["MONGO_HOST"],
         dialect=NoSQLDatabaseDialect.MONGODB,
     )
     yield client
-    await client.close()
+    client.close()
 
 
 @pytest_asyncio.fixture(scope="session")

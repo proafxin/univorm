@@ -3,7 +3,7 @@ from polars import DataFrame
 from sqlalchemy.engine import Engine
 from sqlalchemy.ext.asyncio import AsyncEngine
 
-from xin.reader.sql import async_query_with_result, sync_query_with_result
+from univorm.reader.sql import async_query_with_result, sync_query_with_result
 
 
 @pytest.mark.asyncio
