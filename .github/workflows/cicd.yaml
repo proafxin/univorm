@@ -72,4 +72,4 @@ jobs:
         name: Publish to Pypi
         run: |
           uv build
-          uv publish --username __token__ --password $PYPI_TOKEN
+          uv publish --token $PYPI_TOKEN
