@@ -96,15 +96,11 @@ def sync_sql_engine(
     return create_engine(url=url)
 
 
-def nosql_client(
-    user: str, password: str, dialect: NoSQLDatabaseDialect, host: str
-) -> MongoClient:
+def nosql_client(user: str, password: str, dialect: NoSQLDatabaseDialect, host: str) -> MongoClient:
     driver = "mongodb"
     # if host != "localhost" and host != "127.0.0.1":
     driver += "+srv"
-    connection_string = (
-        f"{driver}://{user}:{password}@{host}/retryWrites=true&w=majority"
-    )
+    connection_string = f"{driver}://{user}:{password}@{host}/retryWrites=true&w=majority"
     client: MongoClient = MongoClient(connection_string)
 
     return client
@@ -116,9 +112,7 @@ async def async_nosql_client(
     driver = "mongodb"
     # if host != "localhost" and host != "127.0.0.1":
     driver += "+srv"
-    connection_string = (
-        f"{driver}://{user}:{password}@{host}/retryWrites=true&w=majority"
-    )
+    connection_string = f"{driver}://{user}:{password}@{host}/retryWrites=true&w=majority"
     client: AsyncMongoClient = AsyncMongoClient(connection_string)
 
     return client

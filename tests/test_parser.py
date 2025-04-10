@@ -41,9 +41,7 @@ async def test_serialize_pandas_table() -> None:
         "e": [[2]],
     }
 
-    pydantic_objects = await serialize_table(
-        table_name="some_table", data=pd.DataFrame(data=[data1, data2])
-    )
+    pydantic_objects = await serialize_table(table_name="some_table", data=pd.DataFrame(data=[data1, data2]))
 
     assert isinstance(pydantic_objects, list)
     for entry in pydantic_objects:
