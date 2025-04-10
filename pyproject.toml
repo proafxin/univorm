@@ -1,6 +1,6 @@
 [project]
 name = "univorm"
-version = "0.3.1"
+version = "0.3.2"
 description = "One ORM Wrapper to Rule Them All"
 readme = "README.md"
 requires-python = ">=3.12"
