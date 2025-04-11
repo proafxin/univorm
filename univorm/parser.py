@@ -37,9 +37,7 @@ async def flatten(data: pd.DataFrame | pl.DataFrame, depth: int) -> pl.DataFrame
     return pl.json_normalize(data=data.to_dicts(), max_level=depth)
 
 
-async def _serialize_data(
-    model_name: str, data: list[dict[Any, Any]], fields: dict[str, Any]
-) -> list[BaseModel]:
+async def _serialize_data(model_name: str, data: list[dict[Any, Any]], fields: dict[str, Any]) -> list[BaseModel]:
     Model = create_model(model_name, **fields)
 
     ta = TypeAdapter(list[Model])  # type: ignore[valid-type]
