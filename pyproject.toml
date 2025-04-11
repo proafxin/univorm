@@ -1,6 +1,6 @@
 [project]
 name = "univorm"
-version = "0.3.2"
+version = "0.3.3"
 description = "One ORM Wrapper to Rule Them All"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -36,7 +36,7 @@ formatting = [
 skips = ['*_test.py', '*/test_*.py']
 
 [tool.ruff]
-line-length = 110
+line-length = 120
 
 
 [tool.pytest.ini_options]

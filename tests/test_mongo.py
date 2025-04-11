@@ -19,7 +19,9 @@ async def test_query_with_result(mongo_client: MongoClient) -> None:
     for object_id in object_ids:
         assert isinstance(object_id, ObjectId)
 
-    df = find_in_collection(query={}, client=mongo_client, dbname="test", collection_name="test")
+    df = find_in_collection(
+        query={}, client=mongo_client, dbname="test", collection_name="test"
+    )
     assert isinstance(df, DataFrame)
     assert df.shape[0] > 0
     assert df.shape[1] > 1
