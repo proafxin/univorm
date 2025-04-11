@@ -106,9 +106,7 @@ def nosql_client(user: str, password: str, dialect: NoSQLDatabaseDialect, host: 
     return client
 
 
-async def async_nosql_client(
-    user: str, password: str, dialect: NoSQLDatabaseDialect, host: str
-) -> AsyncMongoClient:
+async def async_nosql_client(user: str, password: str, dialect: NoSQLDatabaseDialect, host: str) -> AsyncMongoClient:
     driver = "mongodb"
     # if host != "localhost" and host != "127.0.0.1":
     driver += "+srv"
