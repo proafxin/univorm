@@ -60,7 +60,8 @@ async def test_comprehensive_data_types(postgres_engine: AsyncEngine) -> None:
             "datetime_col": [datetime(2023, 1, 1, 12, 0), datetime(2023, 1, 2, 13, 0), datetime(2023, 1, 3, 14, 0)],
             "time_col": [time(12, 0), time(13, 0), time(14, 0)],
             "list_col": ["[1, 2]", "[3, 4]", "[5, 6]"],
-            "struct_col": ["{\"a\": 1}", "{\"b\": 2}", "{\"c\": 3}"],
+            "struct_col": ['{"a": 1}', '{"b": 2}', '{"c": 3}'],
+            "null_col": pl.Series([None, None, None], dtype=pl.Null),
         }
     )
 

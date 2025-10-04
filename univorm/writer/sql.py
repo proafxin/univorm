@@ -36,7 +36,8 @@ async def async_write_dataframe(
             await conn.run_sync(table_obj.create, checkfirst=True)
 
         if if_table_exists == "replace":
-            await conn.execute(table_obj.delete())
+            await conn.run_sync(table_obj.drop, checkfirst=True)
+            await conn.run_sync(table_obj.create)
 
         values = data.to_dicts()
         if values:
@@ -75,7 +76,8 @@ def sync_write_dataframe(
             table_obj.create(conn, checkfirst=True)
 
         if if_table_exists == "replace":
-            conn.execute(table_obj.delete())
+            table_obj.drop(conn, checkfirst=True)
+            table_obj.create(conn)
 
         values = data.to_dicts()
         if values:
