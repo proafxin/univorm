@@ -1,6 +1,6 @@
 [project]
 name = "univorm"
-version = "0.3.5"
+version = "0.4.0"
 description = "One ORM Wrapper to Rule Them All"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -17,6 +17,7 @@ dependencies = [
     "pandas-stubs>=2.2.2.240909",
     "pyarrow>=17.0.0",
     "pymongo[encryption,ocsp,snappy]>=4.11.3",
+    "python-dotenv>=1.1.1",
 ]
 license = { file = "LICENSE" }
 authors = [{name="Masum Billal", email="billalmasum93@gmail.com"}]
@@ -46,7 +47,7 @@ asyncio_default_fixture_loop_scope = "session"
 [[tool.mypy.overrides]]
 module = "pytest-asyncio"
 ignore_errors = true
-disable_error_code = ["type-arg"]
+# disable_error_code = ["type-arg"]
 
 [tool.uv]
 cache-keys = [{ file = "uv.lock" }]
@@ -64,3 +65,11 @@ name = "testpypi"
 url = "https://test.pypi.org/simple/"
 publish-url = "https://test.pypi.org/legacy/"
 explicit = true
+
+[build-system]
+requires = ["uv_build>=0.8.22,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "univorm"
+module-root = ""
