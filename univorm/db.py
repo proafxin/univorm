@@ -41,12 +41,7 @@ NOSQL_DRIVERS = {NoSQLDatabaseDialect.MONGODB.value: NoSQLDatabaseDriver.MOTOR.v
 
 
 def create_connection_string(
-    user: str,
-    password: str,
-    port: int,
-    dialect: SQLDatabaseDialect,
-    host: str,
-    dbname: str,
+    user: str, password: str, port: int, dialect: SQLDatabaseDialect, host: str, dbname: str
 ) -> str:
     dbinfo = dialect.value
     if dbinfo in SQL_DRIVERS:
@@ -58,12 +53,7 @@ def create_connection_string(
 
 
 async def async_sql_engine(
-    user: str,
-    password: str,
-    port: int,
-    dialect: SQLDatabaseDialect,
-    host: str,
-    dbname: str,
+    user: str, password: str, port: int, dialect: SQLDatabaseDialect, host: str, dbname: str
 ) -> AsyncEngine:
     url = create_connection_string(
         user=user,
@@ -76,14 +66,7 @@ async def async_sql_engine(
     return create_async_engine(url=url)
 
 
-def sync_sql_engine(
-    user: str,
-    password: str,
-    port: int,
-    dialect: SQLDatabaseDialect,
-    host: str,
-    dbname: str,
-) -> Engine:
+def sync_sql_engine(user: str, password: str, port: int, dialect: SQLDatabaseDialect, host: str, dbname: str) -> Engine:
     url = create_connection_string(
         user=user,
         password=password,
