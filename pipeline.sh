@@ -9,6 +9,6 @@ uv run coverage report -m --fail-under=95
 uv run mypy . --strict
 cd docs/
 uv run sphinx-apidoc -f -o source/ ../ ../tests/
-make clean
-make html
+uv run sphinx-build -M clean source build
+uv run sphinx-build -M html source build
 cd ..
