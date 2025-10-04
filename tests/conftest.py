@@ -10,7 +10,13 @@ from pymongo import MongoClient
 from sqlalchemy.engine import Engine
 from sqlalchemy.ext.asyncio import AsyncEngine
 
-from univorm.db import NoSQLDatabaseDialect, SQLDatabaseDialect, async_sql_engine, nosql_client, sync_sql_engine
+from univorm.db import (
+    NoSQLDatabaseDialect,
+    SQLDatabaseDialect,
+    async_sql_engine,
+    nosql_client,
+    sync_sql_engine,
+)
 
 load_dotenv()
 
@@ -28,7 +34,7 @@ def mongo_client() -> Generator[MongoClient, None, None]:
     client.close()
 
 
-@pytest_asyncio.fixture(scope="session")
+@pytest_asyncio.fixture(scope="function")
 async def mysql_engine() -> AsyncGenerator[AsyncEngine, None]:
     engine = await async_sql_engine(
         user="root",
@@ -43,7 +49,7 @@ async def mysql_engine() -> AsyncGenerator[AsyncEngine, None]:
     await engine.dispose()
 
 
-@pytest_asyncio.fixture(scope="session")
+@pytest_asyncio.fixture(scope="function")
 async def postgres_engine() -> AsyncGenerator[AsyncEngine, None]:
     engine = await async_sql_engine(
         user=os.environ["PGUSER"],
