@@ -67,16 +67,25 @@ jobs:
 
       - name: Install uv
         uses: astral-sh/setup-uv@main
-        # with:
-          # version: "0.6.12"
+        with:
+          enable-cache: true
+
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Cache uv dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/uv
+          key: ${{ runner.os }}-uv-${{ matrix.python-version }}-${{ hashFiles('**/uv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-uv-${{ matrix.python-version }}-
+            ${{ runner.os }}-uv-
 
       - name: Docker Compose
         uses: hoverkraft-tech/compose-action@main
         with:
           compose-file: compose.yaml
-
-      - name: Set up Python ${{ matrix.python-version }}
-        run: uv python install ${{ matrix.python-version }}
 
       - name: Test code quality, coverage and generate documentation
         run: |
