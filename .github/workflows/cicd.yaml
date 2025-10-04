@@ -42,6 +42,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Create .env file
+        run: |
+          cat > .env << EOF
+          MONGO_HOST=${{ vars.MONGO_HOST }}
+          MONGO_INITDB_ROOT_USERNAME=${{ vars.MONGO_USER }}
+          MONGO_INITDB_ROOT_PASSWORD=${{ vars.MONGO_PASSWORD }}
+          MONGO_PORT=27017
+          MYSQL_DATABASE=${{ vars.MYSQL_DBNAME }}
+          MYSQL_HOST=${{ vars.MYSQL_HOST }}
+          MYSQL_ROOT_PASSWORD=${{ vars.MYSQL_PASSWORD }}
+          MYSQL_TCP_PORT=3306
+          POSTGRESQL_HOST=${{ vars.POSTGRESQL_HOST }}
+          POSTGRES_PASSWORD=${{ vars.POSTGRESQL_PASSWORD }}
+          POSTGRESQL_PORT=5432
+          PGUSER=${{ vars.POSTGRESQL_USER }}
+          POSTGRES_DB=${{ vars.POSTGRESQL_USER }}
+          SQLSERVER_HOST=${{ vars.SQLSERVER_HOST }}
+          SA_PASSWORD=${{ vars.SQLSERVER_PASSWORD }}
+          SQLSERVER_PORT=1433
+          SQLSERVER_USER=sa
+          ACCEPT_EULA=Y
+          EOF
+
       - name: Install uv
         uses: astral-sh/setup-uv@main
         # with:
