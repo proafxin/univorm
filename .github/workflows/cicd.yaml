@@ -12,21 +12,24 @@ on:
 env:
   MYSQL_HOST: ${{ vars.MYSQL_HOST }}
   MYSQL_USER: ${{ vars.MYSQL_USER }}
-  MYSQL_PASSWORD: ${{ vars.MYSQL_PASSWORD }}
-  MYSQL_PORT: ${{ vars.MYSQL_PORT }}
+  MYSQL_ROOT_PASSWORD: ${{ vars.MYSQL_PASSWORD }}
+  MYSQL_TCP_PORT: 3306
+  # MYSQL_PORT: ${{ vars.MYSQL_PORT }}
+  MYSQL_DATABASE: ${{vars.MYSQL_DBNAME }}
   POSTGRESQL_HOST: ${{ vars.POSTGRESQL_HOST }}
-  POSTGRESQL_USER: ${{ vars.POSTGRESQL_USER }}
-  POSTGRESQL_PASSWORD: ${{ vars.POSTGRESQL_PASSWORD }}
-  POSTGRESQL_PORT: ${{ vars.POSTGRESQL_PORT }}
+  PGUSER: ${{ vars.POSTGRESQL_USER }}
+  POSTGRES_DB: ${{ vars.POSTGRESQL_USER }}
+  POSTGRES_PASSWORD: ${{ vars.POSTGRESQL_PASSWORD }}
+  # POSTGRESQL_PORT: ${{ vars.POSTGRESQL_PORT }}
   SQLSERVER_HOST: ${{ vars.SQLSERVER_HOST }}
-  SQLSERVER_USER: ${{ vars.SQLSERVER_USER }}
-  SQLSERVER_PASSWORD: ${{ vars.SQLSERVER_PASSWORD }}
-  SQLSERVER_PORT: ${{ vars.SQLSERVER_PORT }}
+  SQLSERVER_USER: sa
+  SA_PASSWORD: ${{ vars.SQLSERVER_PASSWORD }}
+  # SQLSERVER_PORT: ${{ vars.SQLSERVER_PORT }}
   MONGO_HOST: ${{ vars.MONGO_HOST }}
-  MONGO_USER: ${{ vars.MONGO_USER }}
-  MONGO_PASSWORD: ${{ vars.MONGO_PASSWORD }}
-  MONGO_PORT: ${{ vars.MONGO_PORT }}
-  MYSQL_DBNAME: ${{vars.MYSQL_DBNAME }}
+  MONGO_INITDB_ROOT_USERNAME: ${{ vars.MONGO_USER }}
+  MONGO_INITDB_ROOT_PASSWORD: ${{ vars.MONGO_PASSWORD }}
+  # MONGO_PORT: ${{ vars.MONGO_PORT }}
+  ACCEPT_EULA: Y
 
 jobs:
   build_test:
@@ -39,25 +42,55 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Create .env file
+        run: |
+          cat > .env << EOF
+          MONGO_HOST=${{ vars.MONGO_HOST }}
+          MONGO_INITDB_ROOT_USERNAME=${{ vars.MONGO_USER }}
+          MONGO_INITDB_ROOT_PASSWORD=${{ vars.MONGO_PASSWORD }}
+          MONGO_PORT=27017
+          MYSQL_DATABASE=${{ vars.MYSQL_DBNAME }}
+          MYSQL_HOST=${{ vars.MYSQL_HOST }}
+          MYSQL_ROOT_PASSWORD=${{ vars.MYSQL_PASSWORD }}
+          MYSQL_TCP_PORT=3306
+          POSTGRESQL_HOST=${{ vars.POSTGRESQL_HOST }}
+          POSTGRES_PASSWORD=${{ vars.POSTGRESQL_PASSWORD }}
+          POSTGRESQL_PORT=5432
+          PGUSER=${{ vars.POSTGRESQL_USER }}
+          POSTGRES_DB=${{ vars.POSTGRESQL_USER }}
+          SQLSERVER_HOST=${{ vars.SQLSERVER_HOST }}
+          SA_PASSWORD=${{ vars.SQLSERVER_PASSWORD }}
+          SQLSERVER_PORT=1433
+          SQLSERVER_USER=sa
+          ACCEPT_EULA=Y
+          EOF
+
       - name: Install uv
         uses: astral-sh/setup-uv@main
-        # with:
-          # version: "0.6.12"
-
-      - name: Docker Compose
-        uses: hoverkraft-tech/compose-action@v2.0.2
         with:
-          compose-file: compose.yaml
+          enable-cache: true
 
       - name: Set up Python ${{ matrix.python-version }}
         run: uv python install ${{ matrix.python-version }}
 
-      - name: Run Tox
+      - name: Cache uv dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/uv
+          key: ${{ runner.os }}-uv-${{ matrix.python-version }}-${{ hashFiles('**/uv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-uv-${{ matrix.python-version }}-
+            ${{ runner.os }}-uv-
+
+      - name: Docker Compose
+        uses: hoverkraft-tech/compose-action@main
+        with:
+          compose-file: compose.yaml
+
+      - name: Test code quality, coverage and generate documentation
         run: |
-          uv tool install tox --with tox-uv
-          uv sync --all-extras --dev
-          tox -p
-          tox -e coverage
+          ./pipeline.sh
+          uv run coverage xml -o coverage.xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:

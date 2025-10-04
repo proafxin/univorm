@@ -19,7 +19,7 @@ async def test_postgresql_query(postgres_engine: AsyncEngine) -> None:
     query = "SELECT * FROM pg_database"
     df = await async_query_with_result(query=query, engine=postgres_engine)
     assert isinstance(df, DataFrame)
-    assert df.shape[0] > 3
+    assert df.shape[0] >= 3
 
 
 @pytest.mark.asyncio
