@@ -44,6 +44,7 @@ class DummyModel(BaseModel):
     x: int
     y: float
 
+
 models = [DummyModel(x=1, y=2.0), DummyModel(x=10, y=-1.9)]
 df = await deserialize_pydantic_objects(models=models)
 ```
@@ -90,13 +91,9 @@ def mongo_client() -> Generator[MongoClient, None, None]:
 
 ```python
 documents = [{"name": "test1"}, {"name": "test2"}]
-object_ids = insert_into_collection(
-    documents=documents, client=mongo_client, dbname="test", collection_name="test"
-)
+object_ids = insert_into_collection(documents=documents, client=mongo_client, dbname="test", collection_name="test")
 
-df = find_in_collection(
-    query={}, client=mongo_client, dbname="test", collection_name="test"
-)
+df = find_in_collection(query={}, client=mongo_client, dbname="test", collection_name="test")
 ```
 
 ### Query a MySQL engine
